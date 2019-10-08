@@ -13,7 +13,7 @@
       <!-- <button class="button" onclick="loadData()">Load Some JSON</button> -->
       <button class="button" onclick="listCountries()">Click me to replace list entries</button>
       <div class="content">
-        <ul class="instructions">
+        <ul id="instructions">
           <li>Delete and re-clone the class repository</li>
           <li>Open <span class="code">lab_5_json.html</span> in your browser</li>
           <li>Open your developer tools and look at the logged data</li>
@@ -34,6 +34,7 @@
   <script>
 
     function listCountries() {
+      document.getElementById("instructions").innerHTML = '<ol id="Countrylist"></ol>'
       document.getElementById('Countrylist').innerHTML = '';
       var i;
       for (i = 0; i < 50; i++){
