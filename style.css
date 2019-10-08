@@ -1,0 +1,31 @@
+.header {
+    background-color: darkslategrey;
+    color: white;
+    text-align: center;
+  }
+  
+.container1 {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+.profile {
+  width: 400px;
+}
+
+.goals {
+  height: 25%;
+}
+
+.job {
+  background-color: grey;
+  font-family: 'Franklin Gothic Medium';
+  border-style: double;
+  border-width: 5px;
+  border-color: black;
+  column-span: 1;
+  height: 100/3%;
+
+}
