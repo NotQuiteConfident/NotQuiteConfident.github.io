@@ -17,14 +17,37 @@
   </div>
   <script>
     function loadData() {
-      fetch('ajax_sample.json')
+      fetch('https://api.umd.io/v0/bus/routes')
         .then(res => res.json())
-        .then(res => {
-          // you can now work in this area
-
-          return res;
+        .then(data => {
+          console.log(data)
+          return(data)})
+        .then(res => res.map(a => {
+          route = {title:a.title, route_id:a.route_id}
+          return(route)}))
+        .then(routes => routes.map(a => {
+          route = {title:a.title, route_id:a.route_id}
+          return(route)}))
+        .then(document.querySelector(".content").innerHTML = '<ul class="Countrylist"></ul>')
+        .then(routes => {
+          for(i = 0; i < routes.length; i++){
+            document.querySelector(".content").innerHTML += '<li>' + routes[i].title + ': ' + routes[i].route_id + '</li>'
+          }
+          return(routes)
         })
-        .then(data => document.querySelector(".content").innerText = data);
+        .then(routes => {
+          setTimeout(function() {select = prompt("Enter a bus route ID")}, 500)
+          title = "Invalid Route ID"
+          setTimeout(function() {
+          for(i = 0; i < routes.length; i++){
+            if(routes[i].route_id == select){
+              title = "UMD Bus Route " + routes[i].route_id + " " + routes[i].title.replace(select, "")
+            }}
+          document.querySelector(".header").innerText = title
+          console.log(routes)
+          return(routes)
+          }, 500)
+          })
     }
   </script>
 </body>
