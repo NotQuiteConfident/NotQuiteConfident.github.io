@@ -25,9 +25,6 @@
         .then(res => res.map(a => {
           route = {title:a.title, route_id:a.route_id}
           return(route)}))
-        .then(routes => routes.map(a => {
-          route = {title:a.title, route_id:a.route_id}
-          return(route)}))
         .then(document.querySelector(".content").innerHTML = '<ul class="Countrylist"></ul>')
         .then(routes => {
           for(i = 0; i < routes.length; i++){
@@ -47,7 +44,7 @@
           console.log(routes)
           return(routes)
           }, 500)
-          })
+        })
     }
   </script>
 </body>
