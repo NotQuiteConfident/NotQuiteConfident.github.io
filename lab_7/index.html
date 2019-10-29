@@ -28,7 +28,7 @@
         .then(document.querySelector(".content").innerHTML = '<ul class="Countrylist"></ul>')
         .then(routes => {
           for(i = 0; i < routes.length; i++){
-            document.querySelector(".content").innerHTML += '<li>' + routes[i].title + ': ' + routes[i].route_id + '</li>'
+            document.querySelector(".content").innerHTML += '<li>' + routes[i].title.replace(routes[i].route_id, "") + ': ' + routes[i].route_id + '</li>'
           }
           return(routes)
         })
