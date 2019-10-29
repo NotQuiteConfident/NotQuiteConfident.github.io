@@ -25,7 +25,7 @@
         .then(res => res.map(a => {
           route = {title:a.title, route_id:a.route_id}
           return(route)}))
-        .then(document.querySelector(".content").innerHTML = '<ul class="Countrylist"></ul>')
+        .then(document.querySelector(".content").innerHTML = '<ul class="RouteList"></ul>')
         .then(routes => {
           for(i = 0; i < routes.length; i++){
             document.querySelector(".content").innerHTML += '<li>' + routes[i].title.replace(routes[i].route_id, "") + ': ' + routes[i].route_id + '</li>'
@@ -43,7 +43,7 @@
           document.querySelector(".header").innerText = title
           console.log(routes)
           return(routes)
-          }, 500)
+          }, 500)      
         })
     }
   </script>
