@@ -311,7 +311,7 @@ def runGame():
 
             break
 
-    # Close program after ESC is hit or start a new one if z is hit
+    # Close program after ESC is hit or start a new one if Space is hit
     if win and endGame is not True:
         
         print("Press 'ESC' to end program or 'Space' to start a new one.")
