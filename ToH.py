@@ -6,8 +6,20 @@ import keyboard
 import time
 import random
 
+# Empty spot on the board
+blank = "         "
+# Hidden value at end of each tower to simplify placing blocks
+ender = "###########"
+# Standardized divider
+divider = "---------------------------------"
+# Blocks used in game
+blocks = ["    #    ", "   ###   ", "  #####  ", " ####### ", "#########"]
+
+# Example of a completed tower for comparison
+completed = ["    #    ", "   ###   ", "  #####  ", " ####### ", "#########", ender]
+
 # Creates board
-def createBoard(inBlocks, inBoard, inBlank, inComplete):
+def createBoard(inBlocks, inBoard):
 
     for block in inBlocks:
 
@@ -15,7 +27,7 @@ def createBoard(inBlocks, inBoard, inBlank, inComplete):
         row = random.randint(0,4)
 
         # Checks if random spot is already filled
-        while inBoard[col][row] != inBlank:
+        while inBoard[col][row] != blank:
 
             col = random.randint(0,2)
             row = random.randint(0,4)
@@ -28,8 +40,8 @@ def createBoard(inBlocks, inBoard, inBlank, inComplete):
     inBoard[2].sort()
 
     # Checks if created board is in a win state
-    if checkWin(inBoard[0], inBoard[1], inBoard[2], inComplete):
-        inBoard = createBoard(inBlocks, inBoard, inBlank)
+    if checkWin(inBoard[0], inBoard[1], inBoard[2]):
+        inBoard = createBoard(inBlocks, inBoard)
 
     return(inBoard)
 
@@ -43,13 +55,6 @@ def clear():
 
 # Display the current board
 def display(in1, in2, in3, sel, selb, count):
-
-    # Empty spot on the board
-    blank = "         "
-    # Hidden value at end of each tower to simplify placing blocks
-    ender = "###########"
-    # Standardized divider
-    divider = "---------------------------------"
 
     clear()
 
@@ -90,41 +95,35 @@ def display(in1, in2, in3, sel, selb, count):
     print(divider)
 
 # Check if move is valid
-def validMove(inPiece, inTower, inBlank):
+def validMove(inPiece, inTower):
     
-    if inTower[0] != inBlank:
+    if inTower[0] != blank:
         return(False)
-    elif inTower[1] < inPiece and inTower[1] != inBlank:
+    elif inTower[1] < inPiece and inTower[1] != blank:
         return(False)
-    elif inTower[2] < inPiece and inTower[2] != inBlank:
+    elif inTower[2] < inPiece and inTower[2] != blank:
         return(False)
-    elif inTower[3] < inPiece and inTower[3] != inBlank:
+    elif inTower[3] < inPiece and inTower[3] != blank:
         return(False)
-    elif inTower[4] < inPiece and inTower[4] != inBlank:
+    elif inTower[4] < inPiece and inTower[4] != blank:
         return(False)
     else:
         return(True)
 
 # Check if board is in a win state
-def checkWin(in1, in2, in3, inComplete):
+def checkWin(in1, in2, in3):
     
-    if in1 == inComplete:
+    if in1 == completed:
         return(True)
-    elif in2 == inComplete:
+    elif in2 == completed:
         return(True)
-    elif in3 == inComplete:
+    elif in3 == completed:
         return(True)
     else:
         return(False)
 
 def runGame():
 
-    # Empty spot on the board
-    blank = "         "
-    # Hidden value at end of each tower to simplify placing blocks
-    ender = "###########"
-    # Standardized divider
-    divider = "---------------------------------"
     # Stores which tower is selected
     selector = 1
     # Stores a block when one is selected
@@ -133,17 +132,11 @@ def runGame():
     win = False
     # How many moves have been taken
     moves = 0
-
-    # Blocks used in game
-    blocks = ["    #    ", "   ###   ", "  #####  ", " ####### ", "#########"]
-
+ 
     # Towers
     tower1 = [blank, blank, blank, blank, blank, ender]
     tower2 = [blank, blank, blank, blank, blank, ender]
     tower3 = [blank, blank, blank, blank, blank, ender]
-
-    # Example of a completed tower for comparison
-    completed = ["    #    ", "   ###   ", "  #####  ", " ####### ", "#########", ender]
 
     # Array for generating a board
     board = [tower1, tower2, tower3]
@@ -151,7 +144,7 @@ def runGame():
     endGame = False
 
     # Create initial board
-    board = createBoard(blocks, board, blank, completed)
+    board = createBoard(blocks, board)
 
     # Assign created towers
     tower1 = board[0]
@@ -200,47 +193,23 @@ def runGame():
             # Check if something is already selected
             if selected == blank:
 
-                # Select from tower 1
-                if selector == 1:
+                board = [tower1, tower2, tower3]
 
-                    for i, block in enumerate(tower1):
+                for i, block in enumerate(board[selector - 1]):
 
-                        # Find first non blank spot that is not the hidden end piece
-                        if block != blank and i != (len(tower1) - 1):
+                    # Find first non blank spot that is not the hidden end piece
+                    if block != blank and i != (len(board[selector - 1]) - 1):
 
-                            selected = block
-                            tower1[i] = blank
-                            display(tower1, tower2, tower3, selector, selected, moves)
+                        selected = block
+                        board[selector - 1][i] = blank
+
+                        tower1 = board[0]
+                        tower2 = board[1]
+                        tower3 = board[2]
+
+                        display(tower1, tower2, tower3, selector, selected, moves)
                             
-                            break
-
-                # Select from tower 2
-                if selector == 2:
-
-                    for i, block in enumerate(tower2):
-
-                        # Find first non blank spot that is not the hidden end piece
-                        if block != blank and i != (len(tower2) - 1):
-
-                            selected = block
-                            tower2[i] = blank
-                            display(tower1, tower2, tower3, selector, selected, moves)
-                            
-                            break
-                
-                # Select from tower 3
-                if selector == 3:
-
-                    for i, block in enumerate(tower3):
-
-                        # Find first non blank spot that is not the hidden end piece
-                        if block != blank and i != (len(tower3) - 1):
-
-                            selected = block
-                            tower3[i] = blank
-                            display(tower1, tower2, tower3, selector, selected, moves)
-                            
-                            break
+                        break
 
         # Deposit block
         if keyboard.is_pressed("down"):
@@ -250,47 +219,24 @@ def runGame():
             # Check if something is actually selected
             if selected != blank:
 
-                # Deposit in tower 1 if move is valid
-                if selector == 1 and validMove(selected, tower1, blank):
+                board = [tower1, tower2, tower3]
 
-                    for i, block in enumerate(tower1):
+                # Deposit if move is valid
+                if validMove(selected, board[selector - 1]):
+
+                    for i, block in enumerate(board[selector - 1]):
 
                         # Find first non blank spot
                         if block != blank:
                             
-                            tower1[i - 1] = selected
+                            board[selector - 1][i - 1] = selected
                             selected = blank
                             moves += 1
-                            display(tower1, tower2, tower3, selector, selected, moves)
-                            
-                            break
 
-                # Deposit in tower 2 if move is valid
-                if selector == 2 and validMove(selected, tower2, blank):
+                            tower1 = board[0]
+                            tower2 = board[1]
+                            tower3 = board[2]
 
-                    for i, block in enumerate(tower2):
-
-                        # Find first non blank spot
-                        if block != blank:
-
-                            tower2[i - 1] = selected
-                            selected = blank
-                            moves += 1
-                            display(tower1, tower2, tower3, selector, selected, moves)
-                            
-                            break
-
-                # Deposit in tower 3 if move is valid
-                if selector == 3 and validMove(selected, tower3, blank):
-
-                    for i, block in enumerate(tower3):
-
-                        # Find first non blank spot
-                        if block != blank:
-
-                            tower3[i - 1] = selected
-                            selected = blank
-                            moves += 1
                             display(tower1, tower2, tower3, selector, selected, moves)
                             
                             break
@@ -303,7 +249,7 @@ def runGame():
             break
         
         # Check if the game has been won and end the game
-        if checkWin(tower1, tower2, tower3, completed):
+        if checkWin(tower1, tower2, tower3):
 
             win = True
             print("YOU WIN")
